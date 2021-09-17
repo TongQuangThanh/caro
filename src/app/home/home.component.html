@@ -25,12 +25,20 @@
                 </ion-select>
               </ion-item>
               <ion-item>
-                <ion-label position="floating">{{isOnePlayer === 'true' ? 'Your symbol' : '1st player symbol'}}
+                <ion-label (click)="chooseSymbol(1, label1.innerText, label2.innerText)">
+                  <p #label1>{{isOnePlayer === 'true' ? 'Your symbol' : '1st player symbol'}}</p>
                 </ion-label>
-                <ion-select name="choose" [(ngModel)]="choose">
-                  <ion-select-option value="o">o</ion-select-option>
-                  <ion-select-option value="&times;">&times;</ion-select-option>
-                </ion-select>
+                <ion-chip outline="true" [color]="color1">
+                  <ion-label (click)="chooseSymbol(1, label1.innerText, label2.innerText)">{{choose1}}</ion-label>
+                </ion-chip>
+              </ion-item>
+              <ion-item>
+                <ion-label (click)="chooseSymbol(2, label2.innerText, label1.innerText)">
+                  <p #label2>{{isOnePlayer === 'true' ? 'Computer symbol' : '2st player symbol'}}</p>
+                </ion-label>
+                <ion-chip outline="true" [color]="color2">
+                  <ion-label (click)="chooseSymbol(2, label2.innerText, label1.innerText)">{{choose2}}</ion-label>
+                </ion-chip>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Input size board</ion-label>

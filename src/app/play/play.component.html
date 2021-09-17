@@ -5,7 +5,9 @@
     </ion-buttons>
     <ion-title>Play</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="home" expand="block" fill="clear" shape="round">Back</ion-button>
+      <ion-button routerLink="home">
+        <ion-icon slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -31,14 +33,14 @@
           <ion-card-content class="ion-no-padding">
             <ion-text>
               <ion-row>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Win: {{count1stWin}}</h2>
+                <ion-col size="4" class="ion-padding-start">
+                  <h2 class="ion-float-left">Win: {{count1stWin}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Best move: {{best1stMove}}</h2>
+                <ion-col size="4">
+                  <h2>Best: {{best1stMove}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Move: {{count1stMove}}</h2>
+                <ion-col size="4" class="ion-padding-end">
+                  <h2 class="ion-float-right">Move: {{count1stMove}}</h2>
                 </ion-col>
               </ion-row>
             </ion-text>
@@ -62,14 +64,14 @@
           <ion-card-content class="ion-no-padding">
             <ion-text>
               <ion-row>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Win: {{count2ndWin}}</h2>
+                <ion-col size="4" class="ion-padding-start">
+                  <h2 class="ion-float-left">Win: {{count2ndWin}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Best move: {{best2ndMove}}</h2>
+                <ion-col size="4">
+                  <h2>Best: {{best2ndMove}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Move: {{count2ndMove}}</h2>
+                <ion-col size="4" class="ion-padding-end">
+                  <h2 class="ion-float-right">Move: {{count2ndMove}}</h2>
                 </ion-col>
               </ion-row>
             </ion-text>
@@ -91,8 +93,10 @@
 
         <ion-row *ngFor="let row of arr; let i = index">
           <div *ngIf="isDesktop" class="cell">{{i+1}}</div>
-          <div *ngFor="let col of row; let j = index" [id]="i + '-' + j" class="cell" (click)="tick(i, j)">
-            {{col}}
+          <div *ngFor="let col of row; let j = index" [id]="i + '-' + j" (click)="tick(i, j)" class="cell">
+            <ion-text [color]="col === firstPlayer ? color1 : color2">
+              {{col}}
+            </ion-text>
             <div [id]="'line-' + i + '-' + j" [hidden]="!isWin || checkContain(i, j)" class="line"></div>
           </div>
         </ion-row>
@@ -118,14 +122,14 @@
           <ion-card-content class="ion-no-padding">
             <ion-text>
               <ion-row>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Win: {{count1stWin}}</h2>
+                <ion-col size="4" class="ion-padding-start">
+                  <h2 class="ion-float-left">Win: {{count1stWin}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Best move: {{best1stMove}}</h2>
+                <ion-col size="4">
+                  <h2>Best: {{best1stMove}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Move: {{count1stMove}}</h2>
+                <ion-col size="4" class="ion-padding-end">
+                  <h2 class="ion-float-right">Move: {{count1stMove}}</h2>
                 </ion-col>
               </ion-row>
             </ion-text>
@@ -148,14 +152,14 @@
           <ion-card-content class="ion-no-padding">
             <ion-text>
               <ion-row>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Win: {{count2ndWin}}</h2>
+                <ion-col size="4" class="ion-padding-start">
+                  <h2 class="ion-float-left">Win: {{count2ndWin}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Best move: {{best2ndMove}}</h2>
+                <ion-col size="4">
+                  <h2>Best: {{best2ndMove}}</h2>
                 </ion-col>
-                <ion-col class="ion-no-padding" size="4">
-                  <h2>Move: {{count2ndMove}}</h2>
+                <ion-col size="4" class="ion-padding-end">
+                  <h2 class="ion-float-right">Move: {{count2ndMove}}</h2>
                 </ion-col>
               </ion-row>
             </ion-text>

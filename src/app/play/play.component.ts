@@ -31,8 +31,9 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   previous2nd = [];
   isDraw = false;
   disableUndo = false;
-  choose = 'o';
   confrontation = true;
+  color1 = 'danger';
+  color2 = 'primary';
   horizontal = [[-1, 0], [1, 0]];    // T, D
   vertical = [[0, -1], [0, 1]];    // B, N
   inclineDown = [[-1, -1], [1, 1]];  // TB DN
@@ -56,20 +57,18 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     }
     const p1 = this.storage.get('size');
     const p2 = this.storage.get('chainToWin');
-    const p3 = this.storage.get('choose');
-    const p4 = this.storage.get('confrontation');
-    const p5 = this.storage.get('isOnePlayer');
-    Promise.all([p1, p2, p3, p4, p5]).then((value) => {
-      [this.size, this.chainToWin, this.choose, this.confrontation, this.isOnePlayer] = value;
-      console.log([this.size, this.chainToWin, this.choose, this.confrontation, this.isOnePlayer]);
-      if (!this.size || !this.chainToWin || !this.choose) {
-        this.router.navigateByUrl('home');
-        return;
-      }
-      if (this.choose !== 'o') {
-        this.firstPlayer = this.choose;
-        this.secondPlayer = 'o';
-      }
+    const p3 = this.storage.get('choose1');
+    const p4 = this.storage.get('choose2');
+    const p5 = this.storage.get('color1');
+    const p6 = this.storage.get('color2');
+    const p7 = this.storage.get('isOnePlayer');
+    const p8 = this.storage.get('confrontation');
+    Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then((value) => {
+      [this.size, this.chainToWin, this.firstPlayer, this.secondPlayer,
+        this.color1, this.color2, this.confrontation, this.isOnePlayer] = value;
+        console.log([this.size, this.chainToWin, this.firstPlayer, this.secondPlayer,
+          this.color1, this.color2, this.confrontation, this.isOnePlayer]);
+
       this.createBoard();
       this.ngAfterViewChecked();
     });
