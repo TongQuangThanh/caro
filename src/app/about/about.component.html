@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>About</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12"><ion-list-header class="ion-no-padding"><h2>Gomoku online v1.2</h2></ion-list-header></ion-col>
+      <ion-col size="12" class="ion-padding-bottom">
+        <ion-text>
+          Nothing special, just enjoy your time with your friend <i class="far fa-smile-wink"></i>
+          Have a nice day!
+          <!-- Or give me something like your feeling about this mini-game app <a routerLink="/contact">here</a> -->
+        </ion-text>
+      </ion-col>
+      <ion-col size="12">
+        <ion-label>Version history</ion-label>
+        <ion-list lines="none">
+          <ion-item class="ion-padding-bottom">
+            <ion-text>v1.2 (09/09/2021): <br>Improve movement of computer, add count of move</ion-text>
+          </ion-item>
+          <ion-item class="ion-padding-bottom">
+            <ion-text>v1.1 (05/09/2021):  <br>Player vs computer, Undo button</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-text>v1.0 (10/05/2020):  <br>Player vs player</ion-text>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col>
+        <a routerLink='/'>Back to Home</a>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <div style="font-family: monospace; margin: 20px;">
+    Gomoku online v1.1
+  </div> -->
+  <!-- <div style="font-family: monospace; margin: 20px;"> -->
+
+    <!-- <ul class="m-10">
+      <li>v1.2 (09/09/2021): Improve movement of computer, add count of move</li>
+      <li>v1.1 (05/09/2021): Player vs computer, Undo button</li>
+      <li>v1.0 (10/05/2020): Player vs player</li>
+    </ul> -->
+    <!-- <ion-label>Version history</ion-label>
+    <ion-list>
+      <ion-item>
+        <ion-label>v1.2 (09/09/2021): Improve movement of computer, add count of move</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>v1.1 (05/09/2021): Player vs computer, Undo button</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>v1.0 (10/05/2020): Player vs player</ion-label>
+      </ion-item>
+    </ion-list> -->
+  <!-- </div> -->
+</ion-content>

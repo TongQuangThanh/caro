@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <ion-card>
+          <ion-card-header class="ion-text-center">
+            <ion-card-title>Settings</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form #f="ngForm" (ngSubmit)="onSubmit()" class="ion-text-center">
+              <ion-item>
+                <ion-label position="floating">Number of player</ion-label>
+                <ion-select name="isOnePlayer" [(ngModel)]="isOnePlayer">
+                  <ion-select-option value="true">1</ion-select-option>
+                  <ion-select-option value="false">2</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">{{isOnePlayer === 'true' ? 'Your symbol' : '1st player symbol'}}
+                </ion-label>
+                <ion-select name="choose" [(ngModel)]="choose">
+                  <ion-select-option value="o">o</ion-select-option>
+                  <ion-select-option value="&times;">&times;</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Input size board</ion-label>
+                <ion-input required name="size" [(ngModel)]="size" type="number" [min]="minSize" [max]="maxSize"
+                  (ionChange)="changeChainToWin()">
+                </ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Chain to win</ion-label>
+                <ion-input required name="chainToWin" [(ngModel)]="chainToWin" disabled type="number"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>Confrontation mode</ion-label>
+                <ion-checkbox slot="end" name="confrontation" [(ngModel)]="confrontation" [disabled]="isOnePlayer">
+                </ion-checkbox>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-buttons (click)="modeInfo()" fill="none" class="ion-no-margin" style="font-size: 14px;">
+                  What is confrontation<ion-icon slot="icon-only" name="help-circle-outline" slot="end"></ion-icon>
+                </ion-buttons>
+              </ion-item>
+              <ion-button class="ion-margin-top" block color="primary" type="submit" [disabled]="!f.valid">
+                Play
+              </ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

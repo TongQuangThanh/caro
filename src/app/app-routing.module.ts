@@ -1,15 +1,31 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { PlayComponent } from './play/play.component';
+import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
+
 const routes: Routes = [
   {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'about',
+    component: AboutComponent
+  },
+  {
+    path: 'play',
+    component: PlayComponent
+  },
+  {
     path: '',
-    redirectTo: 'folder/Inbox',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: '**',
+    redirectTo: 'home'
   }
 ];
 

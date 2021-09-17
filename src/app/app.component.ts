@@ -1,18 +1,29 @@
-import { Component } from '@angular/core';
+import { SharedService } from './shared.service';
+import { Component, ContentChild, HostListener } from '@angular/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  tooNarrow = false;
+  width = 220;
+  public action = [{ title: 'Exit', icon: 'exit' }];
   public appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Home', url: '/home', icon: 'home' },
+    { title: 'About', url: '/about', icon: 'information' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  constructor(private sharedService: SharedService) { }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.tooNarrow = event.target.innerHeight < 1.5 * this.width || event.target.innerWidth < this.width ? true : false;
+  }
+
+  onClick(action: string) {
+    if (action === 'Exit') {
+      this.sharedService.exitApp();
+    }
+  }
 }

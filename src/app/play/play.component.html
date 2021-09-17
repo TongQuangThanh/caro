@@ -1,0 +1,167 @@
+<ion-header *ngIf="isDesktop || !confrontation" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Play</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="home" expand="block" fill="clear" shape="round">Back</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed class="ion-justify-content-between">
+    <ion-row class="ion-text-center {{ isOnePlayer || !confrontation || isDesktop ? '' : 'rotate' }}">
+      <ion-col size="12" [hidden]="!isDraw || isOnePlayer">
+        <ion-label style="font-family: monospace; font-size: 20px">It's draw</ion-label>
+      </ion-col>
+      <ion-col [hidden]="!isDesktop" size="12" sizeSm="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-button [disabled]="(disableUndo || count1stMove === 0 || count % 2 === 0) && !isOnePlayer"
+              (click)="undo()" fill="none" class="top-left-absolute">
+              <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button [disabled]="count === 0" (click)="reset()" fill="none" class="top-right-absolute">
+              <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-card-title>{{firstPlayer}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding">
+            <ion-text>
+              <ion-row>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Win: {{count1stWin}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Best move: {{best1stMove}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Move: {{count1stMove}}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" sizeSm="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-button *ngIf="!isOnePlayer" [disabled]="disableUndo || count2ndMove === 0 || count % 2 === 1"
+              (click)="undo()" fill="none" class="top-left-absolute">
+              <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="!isOnePlayer" [disabled]="count === 0" (click)="reset()" fill="none"
+              class="top-right-absolute">
+              <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-card-title>{{secondPlayer}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding">
+            <ion-text>
+              <ion-row>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Win: {{count2ndWin}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Best move: {{best2ndMove}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Move: {{count2ndMove}}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="flex-grow: 1;" class="ion-justify-content-center ion-align-items-center">
+      <div>
+        <!-- y-axis -->
+        <ng-container *ngIf="isDesktop">
+          <ion-row class="cell" *ngFor="let item of yArr" class="container-flex flex-column my-10">
+            <div class="cell">0</div>
+            <div class="cell" *ngFor="let col of arr; let i = index">{{i+1}}</div>
+          </ion-row>
+        </ng-container>
+        <!-- end of y-axis -->
+
+        <ion-row *ngFor="let row of arr; let i = index">
+          <div *ngIf="isDesktop" class="cell">{{i+1}}</div>
+          <div *ngFor="let col of row; let j = index" [id]="i + '-' + j" class="cell" (click)="tick(i, j)">
+            {{col}}
+            <div [id]="'line-' + i + '-' + j" [hidden]="!isWin || checkContain(i, j)" class="line"></div>
+          </div>
+        </ion-row>
+      </div>
+    </ion-row>
+
+    <ion-row [hidden]="isDesktop" class="ion-text-center">
+      <ion-col size="12" [hidden]="!isDraw">
+        <ion-label style="font-family: monospace; font-size: 20px">It's draw</ion-label>
+      </ion-col>
+      <ion-col size="12" sizeSm="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-button [disabled]="(disableUndo || count1stMove === 0 || count % 2 === 0) && !isOnePlayer"
+              (click)="undo()" fill="none" class="top-left-absolute">
+              <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button [disabled]="count === 0" (click)="reset()" fill="none" class="top-right-absolute">
+              <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-card-title>{{firstPlayer}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding">
+            <ion-text>
+              <ion-row>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Win: {{count1stWin}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Best move: {{best1stMove}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Move: {{count1stMove}}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col hidden size="12" sizeSm="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-button [disabled]="disableUndo || count2ndMove === 0 || count % 2 === 1" (click)="undo()" fill="none"
+              class="top-left-absolute">
+              <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button [disabled]="count === 0" (click)="reset()" fill="none" class="top-right-absolute">
+              <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-card-title>{{secondPlayer}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding">
+            <ion-text>
+              <ion-row>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Win: {{count2ndWin}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Best move: {{best2ndMove}}</h2>
+                </ion-col>
+                <ion-col class="ion-no-padding" size="4">
+                  <h2>Move: {{count2ndMove}}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

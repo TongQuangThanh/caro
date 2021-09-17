@@ -1,0 +1,60 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+@media screen and (min-width: 320px) {
+  .cell {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.line {
+  position: absolute;
+  border-bottom: 2px solid green;
+}
+
+.vertical {
+  transform: rotate(90deg);
+}
+
+.incline-up {
+  transform: rotate(135deg);
+}
+
+.incline-down {
+  transform: rotate(225deg);
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+ion-grid {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-right-absolute {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.top-left-absolute {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}

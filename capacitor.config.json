@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "caro",
+	"appId": "com.thnvn.gomoku",
+	"appName": "Gomoku",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
