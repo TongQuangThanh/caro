@@ -1,0 +1,6 @@
+{
+	"appId": "com.thnvn.gomoku",
+	"appName": "Gomoku",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

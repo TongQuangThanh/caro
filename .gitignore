@@ -31,5 +31,3 @@ npm-debug.log*
 /www
 /.firebase
 .firebaserc
-/ios
-/android

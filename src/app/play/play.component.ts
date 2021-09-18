@@ -43,8 +43,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   desktopMode = ['electron', 'desktop', 'pwa'];
   isDesktop = false;
 
-  constructor(private storage: StorageService, private router: Router,
-    private alertController: AlertController, private platform: Platform) { }
+  constructor(private storage: StorageService, private alertController: AlertController, private platform: Platform) { }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -66,9 +65,6 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then((value) => {
       [this.size, this.chainToWin, this.firstPlayer, this.secondPlayer,
         this.color1, this.color2, this.confrontation, this.isOnePlayer] = value;
-        console.log([this.size, this.chainToWin, this.firstPlayer, this.secondPlayer,
-          this.color1, this.color2, this.confrontation, this.isOnePlayer]);
-
       this.createBoard();
       this.ngAfterViewChecked();
     });
