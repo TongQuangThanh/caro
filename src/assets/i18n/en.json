@@ -1,0 +1,34 @@
+{
+  "sidebar": {
+    "name": "Gomoku",
+    "title": "Hi there, wish you have a nice day :)",
+    "home": "Home",
+    "about": "About",
+    "exit": "Exit"
+  },
+  "about": {
+    "back": "Back to Home"
+  },
+  "home": {
+    "setting": "Settings",
+    "number-player": "Number of player",
+    "your-symbol": "Your symbol",
+    "computer-symbol": "Computer symbol",
+    "size-board": "Input size board",
+    "chain-win": "Chain to win",
+    "confront-mode": "Confrontation mode",
+    "confront-is": "What is confrontation",
+    "play": "Play",
+    "win": "Win",
+    "best": "Best",
+    "move": "Move",
+    "draw": "It's draw!",
+    "confront": {
+      "text": "It allow rotate 1 side for more comfortable when you play with your friend :)"
+    }
+  },
+  "common": {
+    "close": "Close",
+    "too-small": "Sorry, your screen too small to play"
+  }
+}

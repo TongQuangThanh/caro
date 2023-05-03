@@ -5,7 +5,7 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ionic serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
+    "@capacitor-community/admob": "^4.2.0",
     "@capacitor/android": "3.2.3",
     "@capacitor/app": "1.0.3",
     "@capacitor/core": "3.2.2",
@@ -27,6 +28,8 @@
     "@capacitor/status-bar": "1.0.3",
     "@ionic/angular": "^5.5.2",
     "@ionic/storage-angular": "^3.0.6",
+    "@ngx-translate/core": "^11.0.1",
+    "@ngx-translate/http-loader": "^4.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

@@ -1,0 +1,34 @@
+{
+  "sidebar": {
+    "name": "Cờ caro",
+    "title": "Chào, mong bạn có một ngày vui vẻ nhé :)",
+    "home": "Trang chủ",
+    "about": "Thông tin",
+    "exit": "Thoát"
+  },
+  "about": {
+    "back": "Về trang chủ"
+  },
+  "home": {
+    "setting": "Cài đặt",
+    "number-player": "Số người chơi",
+    "your-symbol": "Biểu tượng của bạn",
+    "computer-symbol": "Biểu tượng của máy",
+    "size-board": "Số ô bàn cờ",
+    "chain-win": "Số chuỗi chiến thắng",
+    "confront-mode": "Đối đầu",
+    "confront-is": "Thông tim thêm",
+    "play": "Chơi",
+    "win": "Thắng",
+    "best": "Tốt nhất",
+    "move": "Lượt",
+    "draw": "Hòa!",
+    "confront": {
+      "text": "Xoay ngược 1 bên cho trải nghiệm đối đầu cân não khi chơi cùng bạn bè :)"
+    }
+  },
+  "common": {
+    "close": "Đóng",
+    "too-small": "Xin lỗi, màn hình của bạn quá nhỏ để chơi"
+  }
+}
