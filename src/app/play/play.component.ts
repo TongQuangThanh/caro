@@ -1,6 +1,6 @@
 import { StorageService } from './../storage.service';
 import { AfterViewChecked, Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AlertController, Platform } from '@ionic/angular';
 
 @Component({
@@ -43,7 +43,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   desktopMode = ['electron', 'desktop', 'pwa'];
   isDesktop = false;
 
-  constructor(private storage: StorageService, private alertController: AlertController, private platform: Platform) { }
+  constructor(private storage: StorageService, private alertController: AlertController, private platform: Platform, private translate: TranslateService) { }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -87,11 +87,11 @@ export class PlayComponent implements OnInit, AfterViewChecked {
 
   async reset() {
     const alert = await this.alertController.create({
-      header: 'Reset all board!',
-      message: 'Are you sure?',
+      header: this.translate.instant('notify.reset.title'),
+      message: this.translate.instant('notify.reset.message'),
       buttons: [
         {
-          text: 'Cancel',
+          text: this.translate.instant('common.close'),
           role: 'cancel'
         }, {
           text: 'OK',
@@ -126,7 +126,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   checkContain(i: number, j: number) {
     let isExist = false;
     this.arrWin.forEach(element => {
-      if ([i, j] === element) { isExist = true; }
+      if (i === element[0] && j === element[1]) { isExist = true; }
     });
     return isExist;
   }

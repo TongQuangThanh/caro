@@ -25,10 +25,31 @@
     "draw": "Hòa!",
     "confront": {
       "text": "Xoay ngược 1 bên cho trải nghiệm đối đầu cân não khi chơi cùng bạn bè :)"
-    }
+    },
+    "alert": {
+      "title": "Nhập biểu tượng",
+      "message": "Nhập 1 ký tự"
+    },
+    "custom-symbol": "Thay đổi của bạn!"
   },
   "common": {
     "close": "Đóng",
+    "change": "Đổi màu",
+    "choose": "Chọn",
     "too-small": "Xin lỗi, màn hình của bạn quá nhỏ để chơi"
+  },
+  "notify": {
+    "reset": {
+      "title": "Đặt lại tất cả!",
+      "message": "Bạn chắc chứ?"
+    },
+    "duplicate": {
+      "title": "Lựa chọn bị trùng lặp",
+      "message": "Vui lòng chọn lại"
+    },
+    "quit": {
+      "title": "Thoát!",
+      "message": "Bạn thực sự muốn thoát?"
+    }
   }
 }

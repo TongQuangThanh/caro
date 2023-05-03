@@ -3,8 +3,14 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header class="ion-padding-bottom">{{ 'sidebar.name' | translate }}</ion-list-header>
-          <ion-note>Hi there, wish you have a nice day :)</ion-note>
+          <ion-list-header class="ion-margin-vertical ion-no-padding">
+            <div class="w-100 d-flex ion-justify-content-between">
+              <h1 class="ion-no-margin">{{ 'sidebar.name' | translate }}</h1>
+              <ion-icon id="open-modal" slot="end" name="settings-outline" size="large"></ion-icon>
+            </div>
+          </ion-list-header>
+          <!-- <ion-list-header class="ion-padding-bottom">{{ 'sidebar.name' | translate }}</ion-list-header> -->
+          <ion-note>{{ 'sidebar.title' | translate }}</ion-note>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
               routerLinkActive="selected">
@@ -35,3 +41,45 @@
     </ion-row>
   </ion-grid>
 </ng-template>
+
+<ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">{{ 'common.cancel' | translate }}</ion-button>
+        </ion-buttons>
+        <ion-title mode="ios">{{ 'common.setting' | translate }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" [strong]="true">OK</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list>
+        <!-- <ion-item>
+          <span class="w-50">{{ 'common.dark-mode' | translate }}</span>
+          <ion-toggle labelPlacement="end" [(ngModel)]="isDark"></ion-toggle>
+        </ion-item> -->
+        <ion-radio-group [value]="lang" (ionChange)="changeLang($event)">
+          <ion-item>
+            <ion-radio value="vi" color="primary" justify="space-between">
+              <div class="d-flex ion-align-items-center">
+                <img style="margin-right: 4px; width: 20px;" src="../assets/icon/vietnam.png">Việt Nam
+              </div>
+            </ion-radio>
+          </ion-item>
+        </ion-radio-group>
+        <ion-radio-group [value]="lang" (ionChange)="changeLang($event)">
+          <ion-item>
+            <ion-radio value="en" color="primary" justify="space-between">
+              <div class="d-flex ion-align-items-center">
+                <img style="margin-right: 4px; width: 20px;" src="../assets/icon/uk.png"><span>English</span>
+              </div>
+            </ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

@@ -25,10 +25,31 @@
     "draw": "It's draw!",
     "confront": {
       "text": "It allow rotate 1 side for more comfortable when you play with your friend :)"
-    }
+    },
+    "alert": {
+      "title": "Type a symbol",
+      "message": "Type 1 character"
+    },
+    "custom-symbol": "Custom by yourself!"
   },
   "common": {
     "close": "Close",
+    "change": "Change color",
+    "choose": "Choose",
     "too-small": "Sorry, your screen too small to play"
+  },
+  "notify": {
+    "reset": {
+      "title": "Reset all board!",
+      "message": "Are you sure?"
+    },
+    "duplicate": {
+      "title": "Duplicate symbol",
+      "message": "Please type another one"
+    },
+    "quit": {
+      "title": "Quit this game!",
+      "message": "Do you really want to quit this game?"
+    }
   }
 }

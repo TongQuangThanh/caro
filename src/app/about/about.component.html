@@ -3,14 +3,14 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>About</ion-title>
+    <ion-title>{{ 'sidebar.about' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row>
-      <ion-col size="12"><ion-list-header class="ion-no-padding"><h2>Gomoku online v1.2</h2></ion-list-header></ion-col>
+      <ion-col size="12"><ion-list-header class="ion-no-padding"><h2>{{ 'sidebar.name' | translate }} online v1.2</h2></ion-list-header></ion-col>
       <ion-col size="12" class="ion-padding-bottom">
         <ion-text>
           Nothing special, just enjoy your time with your friend <i class="far fa-smile-wink"></i>
@@ -21,9 +21,9 @@
       <ion-col size="12">
         <ion-label>Version history</ion-label>
         <ion-list lines="none">
-          <ion-item class="ion-padding-bottom">
+          <!-- <ion-item class="ion-padding-bottom">
             <ion-text>v1.2 (09/09/2021): <br>Improve movement of computer, add count of move</ion-text>
-          </ion-item>
+          </ion-item> -->
           <ion-item class="ion-padding-bottom">
             <ion-text>v1.1 (05/09/2021):  <br>Undo button</ion-text>
           </ion-item>
@@ -33,7 +33,7 @@
         </ion-list>
       </ion-col>
       <ion-col>
-        <a routerLink='/'>Back to Home</a>
+        <a routerLink='/'>{{ 'about.back' | translate }}</a>
       </ion-col>
     </ion-row>
   </ion-grid>

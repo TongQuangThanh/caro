@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageService } from './../storage.service';
 import { App } from '@capacitor/app';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
   ];
   constructor(private storage: StorageService, private router: Router, private modalController: ModalController,
     private routerOutlet: IonRouterOutlet, private platform: Platform, private alertController: AlertController,
-    private sharedService: SharedService, private toastController: ToastController) {
+    private sharedService: SharedService, private toastController: ToastController, private translate: TranslateService) {
     this.platform.backButton.subscribeWithPriority(-1, () => this.exitApp());
     sharedService.exit$.subscribe(() => this.exitApp());
   }
@@ -44,8 +45,8 @@ export class HomeComponent implements OnInit {
 
   async toast() {
     const toast = await this.toastController.create({
-      header: 'Duplicate symbol',
-      message: 'Please type another one',
+      header: this.translate.instant('notify.duplicate.title'),
+      message: this.translate.instant('notify.duplicate.message'),
       position: 'top',
       cssClass: 'ion-text-center',
       duration: 1500
@@ -55,7 +56,7 @@ export class HomeComponent implements OnInit {
 
   async alertText(player: number, value?: string) {
     const alertText = await this.alertController.create({
-      header: 'Type a symbol',
+      header: this.translate.instant('home.alert.title'),
       inputs: [{
         name: '',
         value,
@@ -72,7 +73,7 @@ export class HomeComponent implements OnInit {
             }
           }
         },
-        placeholder: 'Type 1 character'
+        placeholder: this.translate.instant('home.alert.message')
       }],
       buttons: [
         {
@@ -114,19 +115,19 @@ export class HomeComponent implements OnInit {
     }));
     inputs.push({
       type: 'radio',
-      label: 'Custom by yourself!',
+      label: this.translate.instant('home.custom-symbol'),
       checked: !this.chooses.includes(currentSymbol),
       handler: () => this.alertText(player, currentSymbol)
     });
     const alert = await this.alertController.create({
-      header: `Choose ${playerName}`,
+      header: `${this.translate.instant('common.choose')} ${playerName}`,
       inputs,
       buttons: [
         {
-          text: 'Cancel',
+          text: this.translate.instant('common.close'),
           role: 'cancel'
         }, {
-          text: 'Change color',
+          text: this.translate.instant('common.change'),
           handler: () => {
             this.alertController.dismiss().then(() => {
               this.chooseColor(player, playerName);
@@ -160,7 +161,7 @@ export class HomeComponent implements OnInit {
       inputs,
       buttons: [
         {
-          text: 'Cancel',
+          text: this.translate.instant('common.close'),
           role: 'cancel'
         }, {
           text: 'OK'
@@ -173,14 +174,14 @@ export class HomeComponent implements OnInit {
   exitApp() {
     if (!this.routerOutlet.canGoBack()) {
       this.alertController.create({
-        header: 'Quit this game!',
-        message: 'Do you really want to quit this game?',
+        header: this.translate.instant('notify.quit.title'),
+        message: this.translate.instant('notify.quit.message'),
         buttons: [
           {
-            text: 'Cancel',
+            text: this.translate.instant('common.close'),
             role: 'cancel'
           }, {
-            text: 'Exit',
+            text: 'OK',
             handler: () => {
               App.exitApp();
             }
@@ -198,7 +199,6 @@ export class HomeComponent implements OnInit {
     const modal = await this.modalController.create({
       component: ModalComponent,
       showBackdrop: true,
-      swipeToClose: true,
       backdropDismiss: true
     });
     await modal.present();
@@ -221,9 +221,9 @@ export class HomeComponent implements OnInit {
   selector: 'app-modal',
   template: `<ion-header [translucent]="true">
               <ion-toolbar>
-                <ion-title>Confrontation mode</ion-title>
+                <ion-title>{{ 'home.confront-mode' | translate }}</ion-title>
                 <ion-buttons slot="end">
-                  <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round">Close</ion-button>
+                  <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round">{{ 'common.close' | translate }}</ion-button>
                 </ion-buttons>
               </ion-toolbar>
             </ion-header>
@@ -232,7 +232,7 @@ export class HomeComponent implements OnInit {
                 <ion-row>
                   <ion-col>
                     <ion-text>
-                      <p>It allow rotate 1 side for more comfortable when you play with your friend :)</p>
+                      <p>{{ 'home.confront.text' | translate }}</p>
                     </ion-text>
                     <ion-img style="height: 80vh;" src="../../assets/img/confrontation.png"></ion-img>
                   </ion-col>
