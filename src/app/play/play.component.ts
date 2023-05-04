@@ -51,20 +51,20 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   }
 
   async ngOnInit() {
-    if (!this.platform.is('ios') && !this.platform.is('android')) {
-      this.isDesktop = true;
-    }
-    const p1 = this.storage.get('size');
-    const p2 = this.storage.get('chainToWin');
+    // if (!this.platform.is('ios') && !this.platform.is('android')) {
+    //   this.isDesktop = true;
+    // }
+    const p1 = +this.storage.get('size');
+    const p2 = +this.storage.get('chainToWin');
     const p3 = this.storage.get('choose1');
     const p4 = this.storage.get('choose2');
     const p5 = this.storage.get('color1');
     const p6 = this.storage.get('color2');
-    const p7 = this.storage.get('isOnePlayer');
-    const p8 = this.storage.get('confrontation');
+    const p7 = this.storage.get('isOnePlayer') === 'true';
+    const p8 = this.storage.get('confrontation') === 'true';
     Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then((value) => {
       [this.size, this.chainToWin, this.firstPlayer, this.secondPlayer,
-        this.color1, this.color2, this.confrontation, this.isOnePlayer] = value;
+        this.color1, this.color2, this.isOnePlayer, this.confrontation] = value;
       this.createBoard();
       this.ngAfterViewChecked();
     });

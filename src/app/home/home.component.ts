@@ -12,12 +12,12 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  maxSize = 20;
+  maxSize = 15;
   minSize = 3;
   choose1 = 'o';
   choose2 = '×';
   chainToWin = 5;
-  isOnePlayer = 'true';
+  isOnePlayer = 'false';
   player = '1';
   size = 10;
   color1 = 'danger';
@@ -192,6 +192,7 @@ export class HomeComponent implements OnInit {
   }
 
   changeChainToWin() {
+    this.size = this.size > this.maxSize ? this.maxSize : this.size < this.minSize ? this.minSize : this.size;
     this.chainToWin = this.size > 5 ? 5 : 3;
   }
 
@@ -209,7 +210,7 @@ export class HomeComponent implements OnInit {
     const p2 = this.storage.set('choose1', this.choose1);
     const p3 = this.storage.set('choose2', this.choose2);
     const p4 = this.storage.set('chainToWin', this.chainToWin);
-    const p5 = this.storage.set('isOnePlayer', this.isOnePlayer === 'true' ? true : false);
+    const p5 = this.storage.set('isOnePlayer', this.isOnePlayer);
     const p6 = this.storage.set('confrontation', this.confrontation);
     const p7 = this.storage.set('color1', this.color1);
     const p8 = this.storage.set('color2', this.color2);
@@ -234,7 +235,7 @@ export class HomeComponent implements OnInit {
                     <ion-text>
                       <p>{{ 'home.confront.text' | translate }}</p>
                     </ion-text>
-                    <ion-img style="height: 80vh;" src="../../assets/img/confrontation.png"></ion-img>
+                    <ion-img style="max-height: 75vh;" src="../../assets/img/confrontation.png"></ion-img>
                   </ion-col>
                 </ion-row>
               </ion-grid>

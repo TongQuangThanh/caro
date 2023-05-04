@@ -12,9 +12,11 @@
   "home": {
     "setting": "Settings",
     "number-player": "Number of player",
+    "1-symbol": "1st player symbol",
+    "2-symbol": "2st player symbol",
     "your-symbol": "Your symbol",
     "computer-symbol": "Computer symbol",
-    "size-board": "Input size board",
+    "size-board": "Input size board (3 -> 15)",
     "chain-win": "Chain to win",
     "confront-mode": "Confrontation mode",
     "confront-is": "What is confrontation",

@@ -4,7 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { HttpClientModule } from '@angular/common/http';
 
 import { PlayComponent } from './play/play.component';
 import { AppComponent } from './app.component';
@@ -15,7 +15,7 @@ import { SharedModule } from './shared/shared.module';
 
 @NgModule({
     declarations: [AppComponent, HomeComponent, AboutComponent, PlayComponent, ModalComponent],
-    imports: [FormsModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot(), SharedModule],
+    imports: [FormsModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, SharedModule],
     providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
     bootstrap: [AppComponent]
 })

@@ -6,24 +6,23 @@
           <ion-list-header class="ion-margin-vertical ion-no-padding">
             <div class="w-100 d-flex ion-justify-content-between">
               <h1 class="ion-no-margin">{{ 'sidebar.name' | translate }}</h1>
-              <ion-icon id="open-modal" slot="end" name="settings-outline" size="large"></ion-icon>
+              <ion-icon id="open-modal" name="settings-outline" size="large"></ion-icon>
             </div>
           </ion-list-header>
-          <!-- <ion-list-header class="ion-padding-bottom">{{ 'sidebar.name' | translate }}</ion-list-header> -->
           <ion-note>{{ 'sidebar.title' | translate }}</ion-note>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
               routerLinkActive="selected">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
+              <ion-label>{{ p.title | translate }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
 
         <ion-list id="labels-list">
-          <ion-item *ngFor="let action of action" lines="none" (click)="onClick(action .title)">
+          <ion-item *ngFor="let action of action" lines="none" (click)="onClick(action.action)">
             <ion-icon slot="start" [ios]="action.icon + '-outline'" [md]="action.icon + '-sharp'"></ion-icon>
-            <ion-label>{{ action.title }}</ion-label>
+            <ion-label>{{ action.title | translate }}</ion-label>
           </ion-item>
         </ion-list>
       </ion-content>
@@ -47,9 +46,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button (click)="cancel()">{{ 'common.cancel' | translate }}</ion-button>
+          <ion-button (click)="cancel()">{{ 'common.close' | translate }}</ion-button>
         </ion-buttons>
-        <ion-title mode="ios">{{ 'common.setting' | translate }}</ion-title>
+        <ion-title mode="ios">{{ 'home.setting' | translate }}</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="confirm()" [strong]="true">OK</ion-button>
         </ion-buttons>
@@ -63,7 +62,7 @@
         </ion-item> -->
         <ion-radio-group [value]="lang" (ionChange)="changeLang($event)">
           <ion-item>
-            <ion-radio value="vi" color="primary" justify="space-between">
+            <ion-radio value="vn" color="primary" justify="space-between">
               <div class="d-flex ion-align-items-center">
                 <img style="margin-right: 4px; width: 20px;" src="../assets/icon/vietnam.png">Việt Nam
               </div>

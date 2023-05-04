@@ -1,7 +1,7 @@
 {
   "sidebar": {
     "name": "Cờ caro",
-    "title": "Chào, mong bạn có một ngày vui vẻ nhé :)",
+    "title": "Xin chào, mong bạn có một ngày vui vẻ nhé :)",
     "home": "Trang chủ",
     "about": "Thông tin",
     "exit": "Thoát"
@@ -12,9 +12,11 @@
   "home": {
     "setting": "Cài đặt",
     "number-player": "Số người chơi",
+    "1-symbol": "Người chơi 1",
+    "2-symbol": "Người chơi 2",
     "your-symbol": "Biểu tượng của bạn",
     "computer-symbol": "Biểu tượng của máy",
-    "size-board": "Số ô bàn cờ",
+    "size-board": "Số ô bàn cờ (3 -> 15)",
     "chain-win": "Số chuỗi chiến thắng",
     "confront-mode": "Đối đầu",
     "confront-is": "Thông tim thêm",

@@ -4,4 +4,5 @@
     <string name="title_activity_main">Gomoku</string>
     <string name="package_name">com.thnvn.gomoku</string>
     <string name="custom_url_scheme">com.thnvn.gomoku</string>
+    <string name="admob_app_id">ca-app-pub-1861772573153532~3533743609</string>
 </resources>

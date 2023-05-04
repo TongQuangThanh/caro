@@ -6,6 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ionic serve",
+    "android": "ionic cap run android --livereload --external --target=Pixel_3_API_30",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -27,7 +28,6 @@
     "@capacitor/keyboard": "4.0.1",
     "@capacitor/status-bar": "4.0.1",
     "@ionic/angular": "^7.0.5",
-    "@ionic/storage-angular": "^3.0.6",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "rxjs": "^7.5.0",

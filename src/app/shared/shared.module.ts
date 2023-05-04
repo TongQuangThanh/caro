@@ -13,6 +13,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     CommonModule,
     TranslateModule.forRoot({
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
