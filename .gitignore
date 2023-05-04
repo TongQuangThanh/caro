@@ -33,3 +33,4 @@ npm-debug.log*
 .firebaserc
 .angular
 android
+ios
