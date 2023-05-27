@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
       cssClass: 'ion-text-center',
       duration: 1500
     });
-    await toast.present();
+    toast.present();
   }
 
   async alertText(player: number, value?: string) {
@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit {
         }
       ]
     });
-    await alertText.present();
+    alertText.present();
   }
 
   async chooseSymbol(player: number, playerName: string, otherName: string) {
@@ -141,7 +141,7 @@ export class HomeComponent implements OnInit {
         }
       ]
     });
-    await alert.present();
+    alert.present();
   }
 
   async chooseColor(player: number, playerName: string) {
@@ -168,7 +168,7 @@ export class HomeComponent implements OnInit {
         }
       ]
     });
-    await alert.present();
+    alert.present();
   }
 
   exitApp() {
@@ -202,7 +202,7 @@ export class HomeComponent implements OnInit {
       showBackdrop: true,
       backdropDismiss: true
     });
-    await modal.present();
+    modal.present();
   }
 
   async onSubmit() {

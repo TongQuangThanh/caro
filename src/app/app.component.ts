@@ -66,14 +66,7 @@ export class AppComponent {
 
   initializeAdMob() {
     this.platform.ready().then(async () => {
-      const { status } = await AdMob.trackingAuthorizationStatus();
-      if (status === 'notDetermined') {
-        const modal = await this.alertController.create({
-          message: 'Please approve ads for maintain our service',
-        });
-        await modal.present();
-        await modal.onDidDismiss();
-      }
+      await AdMob.trackingAuthorizationStatus();
       await AdMob.initialize({
         // TODO
         // initializeForTesting: true,
@@ -90,7 +83,7 @@ export class AppComponent {
         position: BannerAdPosition.BOTTOM_CENTER,
         margin: 0
       };
-      await AdMob.showBanner(options);
+      AdMob.showBanner(options);
     });
   }
 

@@ -101,7 +101,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
         }
       ]
     });
-    await alert.present();
+    alert.present();
   }
 
   createBoard(clickReset?: boolean) {

@@ -5,20 +5,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  // private _storage: Storage | null = null;
 
   constructor() {
-    // this.init();
   }
 
-  async init() {
-    // If using, define drivers here: await this.storage.defineDriver(/*...*/);
-    // const storage = await this.storage.create();
-    // this._storage = storage;
-  }
-
-  // Create and expose methods that users of this service can
-  // call, for example:
   public set(key: string, value: any) {
     return localStorage.setItem(key, value);
   }
