@@ -41,6 +41,10 @@
     "too-small": "Sorry, your screen too small to play"
   },
   "notify": {
+    "undo": {
+      "title": "Undo?",
+      "message": "You need to watch ads for undo, are you sure?"
+    },
     "reset": {
       "title": "Reset all board!",
       "message": "Are you sure?"

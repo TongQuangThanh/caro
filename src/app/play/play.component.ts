@@ -2,6 +2,15 @@ import { StorageService } from './../storage.service';
 import { AfterViewChecked, Component, HostListener, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController, Platform } from '@ionic/angular';
+import { AdMobRewardItem, AdMob, RewardAdPluginEvents } from '@capacitor-community/admob';
+import { adVideoAndroid } from '../shared.service';
+
+const MAP_SCORE_COMPUTER = new Map([
+  [5, Infinity], [4, 2000], [3, 500], [2, 300], [1, 100]
+]);
+const MAP_POINT_HUMAN = new Map([
+  [4, 999999], [3, 1000], [2, 400], [1, 10], [0, 0]
+]);
 
 @Component({
   selector: 'app-play',
@@ -43,7 +52,9 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   desktopMode = ['electron', 'desktop', 'pwa'];
   isDesktop = false;
 
-  constructor(private storage: StorageService, private alertController: AlertController, private platform: Platform, private translate: TranslateService) { }
+  constructor(private storage: StorageService, private alertController: AlertController, private platform: Platform, private translate: TranslateService) {
+    AdMob.addListener(RewardAdPluginEvents.Rewarded, _ => this.onUndo());
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -131,12 +142,6 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     return isExist;
   }
 
-  computerLastTickThenWin(a: number, b: number, currentPlayer: string) {
-    this.arr[a][b] = this.secondPlayer;
-    this.isWin = true;
-    this.checkWin(a, b, currentPlayer);
-  }
-
   checkWin(i: number, j: number, currentPlayer: string) {
     for (const direction of this.direction) {
       this.arrWin = [];
@@ -207,7 +212,36 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     return this.isWin;
   }
 
-  undo() {
+  async undo() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('notify.undo.title'),
+      message: this.translate.instant('notify.undo.message'),
+      buttons: [
+        {
+          text: this.translate.instant('common.close'),
+          role: 'cancel'
+        }, {
+          text: 'OK',
+          handler: () => this.showAd(),
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  async showAd(): Promise<AdMobRewardItem> {
+    try {
+      // TODO
+      const adId = adVideoAndroid;
+      // const adId = 'ca-app-pub-3940256099942544/5224354917';
+      await AdMob.prepareRewardVideoAd({ adId });
+      return await AdMob.showRewardVideoAd();
+    } catch (error) {
+      return { type: 'false', amount: 0 };
+    }
+  }
+
+  private onUndo() {
     this.disableUndo = true;
     if (this.isOnePlayer) {
       this.count -= 2;
@@ -248,182 +282,11 @@ export class PlayComponent implements OnInit, AfterViewChecked {
         if (this.isOnePlayer) {  // computer
           this.count2ndMove++;
           currentPlayer = this.secondPlayer;
-          const user = this.firstPlayer;
           this.count++;
-          let pieceOfPlayer = [];
-          // check if computer can win by this tick by 4 piece on line
-          if (this.count2ndMove >= this.chainToWin) {
-            const arrOfCom = [];
-            this.arr.forEach((element, m) => element.forEach((e: string, n: number) => e === currentPlayer ? arrOfCom.push([m, n]) : ''));
-            outerLoop:
-            for (const element of arrOfCom) {
-              for (const direction of this.direction) {
-                const [toLeft, toRight] = direction; // example: direction[l] = horizontal = [[-1, 0], [1, 0]]
-                const [xLeft, yLeft] = toLeft; // example: toLeft = horizontal[0] = [-1, 0]
-                const [xRight, yRight] = toRight; // example: toRight = horizontal[1] = [1, 0]
-                const [x, y] = element;
-                let countLeftRight = 0;
-                if (this.arr[x + xLeft] !== undefined && this.arr[x + xLeft][y + yLeft] === currentPlayer) {
-                  let c = 1; // x, y is first, then count up
-                  let aLeft = x + xLeft;
-                  let bLeft = y + yLeft;
-                  while (this.arr[aLeft] !== undefined && this.arr[aLeft][bLeft] === currentPlayer) {
-                    c++;
-                    countLeftRight++;
-                    aLeft += xLeft;
-                    bLeft += yLeft;
-                  }
-                  this.previous2nd = [aLeft, bLeft];
-                  if (c >= this.chainToWin - 1) { // this.chainToWin = 5 => if c == 4 so computer tick and win
-                    this.computerLastTickThenWin(aLeft, bLeft, currentPlayer);
-                    break outerLoop;
-                  }
-                  // else not enough chainToWin - 1 but maybe it is o o _ o o
-                  if (this.arr[aLeft] !== undefined && this.arr[aLeft][bLeft] === '' &&
-                    this.arr[aLeft + xLeft] !== undefined && this.arr[aLeft + xLeft][bLeft + yLeft] === currentPlayer) {
-                    aLeft += xLeft;
-                    bLeft += yLeft;
-                    while (this.arr[aLeft] !== undefined && this.arr[aLeft][bLeft] === currentPlayer) {
-                      c++;
-                      aLeft += xLeft;
-                      bLeft += yLeft;
-                    }
-                  }
-                  if (c >= this.chainToWin - 1) {
-                    this.computerLastTickThenWin(this.previous2nd[0], this.previous2nd[1], currentPlayer);
-                    break outerLoop;
-                  }
-                }
-                if (this.arr[x + xRight] !== undefined && this.arr[x + xRight][y + yRight] === currentPlayer) {
-                  let c = 1; // x, y is first, then count up
-                  let aRight = x + xRight;
-                  let bRight = y + yRight;
-                  while (this.arr[aRight] !== undefined && this.arr[aRight][bRight] === currentPlayer) {
-                    c++;
-                    countLeftRight++;
-                    aRight += xRight;
-                    bRight += yRight;
-                  }
-                  this.previous2nd = [aRight, bRight];
-                  if (c >= this.chainToWin - 1) { // this.chainToWin = 5 => if c == 4 so computer tick and win
-                    this.computerLastTickThenWin(aRight, bRight, currentPlayer);
-                    break outerLoop;
-                  }
-                  // else not enough chainToWin - 1 but maybe it is o o _ o o
-                  if (this.arr[aRight] !== undefined && this.arr[aRight][bRight] === '' &&
-                    this.arr[aRight + xRight] !== undefined && this.arr[aRight + xRight][bRight + yRight] === currentPlayer) {
-                    aRight += xRight;
-                    bRight += yRight;
-                    while (this.arr[aRight] !== undefined && this.arr[aRight][bRight] === currentPlayer) {
-                      c++;
-                      aRight += xRight;
-                      bRight += yRight;
-                    }
-                  }
-                  if (c >= this.chainToWin - 1) {
-                    this.computerLastTickThenWin(this.previous2nd[0], this.previous2nd[1], currentPlayer);
-                    break outerLoop;
-                  }
-                }
-                if (countLeftRight >= this.chainToWin - 1) {
-                  this.computerLastTickThenWin(x, y, currentPlayer);
-                  break outerLoop;
-                }
-              }
-            }
-          }
-          // or keep playing by count max piece foreach direction of player's click above and choose longest of player's line to intercept
-          if (!this.isWin) {
-            for (const direction of this.direction) {
-              const [toLeft, toRight] = direction; // example: direction[l] = horizontal = [[-1, 0], [1, 0]]
-              const [xLeft, yLeft] = toLeft; // example: toLeft = horizontal[0] = [-1, 0]
-              const [xRight, yRight] = toRight; // example: toRight = horizontal[1] = [1, 0]
-              let count1 = 0;
-              if (this.arr[i + xLeft] !== undefined && this.arr[i + xLeft][j + yLeft] === user) {
-                let aLeft = i + xLeft;
-                let bLeft = j + yLeft;
-                while (this.arr[aLeft] !== undefined && this.arr[aLeft][bLeft] === user) {
-                  count1++;
-                  aLeft += xLeft;
-                  bLeft += yLeft;
-                }
-              } else if (this.arr[i + xLeft] !== undefined && this.arr[i + xLeft][j + yLeft] === '' &&
-                this.arr[i + 2 * xLeft] !== undefined && this.arr[i + 2 * xLeft][j + 2 * yLeft] === user) {
-                let aLeft = i + 2 * xLeft;
-                let bLeft = j + 2 * yLeft;
-                while (this.arr[aLeft] !== undefined && this.arr[aLeft][bLeft] === user) {
-                  count1++;
-                  aLeft += xLeft;
-                  bLeft += yLeft;
-                }
-              }
-              let count2 = 0;
-              if (this.arr[i + xRight] !== undefined && this.arr[i + xRight][j + yRight] === user) {
-                let aRight = i + xRight;
-                let bRight = j + yRight;
-                while (this.arr[aRight] !== undefined && this.arr[aRight][bRight] === user) {
-                  count2++;
-                  aRight += xRight;
-                  bRight += yRight;
-                }
-              } else if (this.arr[i + xRight] !== undefined && this.arr[i + xRight][j + yRight] === '' &&
-                this.arr[i + 2 * xRight] !== undefined && this.arr[i + 2 * xRight][j + 2 * yRight] === user) {
-                let aRight = i + 2 * xRight;
-                let bRight = j + 2 * yRight;
-                while (this.arr[aRight] !== undefined && this.arr[aRight][bRight] === user) {
-                  count2++;
-                  aRight += xRight;
-                  bRight += yRight;
-                }
-              }
-              pieceOfPlayer.push([count1, count2]);
-            }
-            pieceOfPlayer = pieceOfPlayer.map((e, idx) => [e, this.directionName[idx]])
-              .sort((a, b) => (b[0][0] + b[0][1]) - (a[0][0] + a[0][1]));
-            loopWhenComputerTick: // let computer tick
-            for (let o = 0; o < pieceOfPlayer.length; o++) { // loop throw 4 direction of user tick, tick on longest
-              const element = pieceOfPlayer[o];
-              const dirToCheck = element[1];
-              const idx = this.directionName.indexOf(dirToCheck);
-              const [toLeft, toRight] = this.direction[idx];
-              const [xLeft, yLeft] = toLeft; // example: toLeft = horizontal[0] = [-1, 0]
-              const [xRight, yRight] = toRight; // example: toRight = horizontal[1] = [1, 0]
-              if (element[0][0] + element[0][1] >= this.chainToWin - 2) { // fill on hole
-                const dirId = this.directionName.indexOf(element[1]);
-                const [toLeftHole, toRightHole] = this.direction[dirId]; // example: direction[l] = horizontal = [[-1, 0], [1, 0]]
-                const [xLeftHole, yLeftHole] = toLeftHole; // example: toLeft = horizontal[0] = [-1, 0]
-                const [xRightHole, yRightHole] = toRightHole; // example: toRight = horizontal[1] = [1, 0]
-                if (this.arr[i + xLeftHole] !== undefined && this.arr[i + xLeftHole][j + yLeftHole] === '' &&
-                  this.arr[i + 2 * xLeftHole] !== undefined && this.arr[i + 2 * xLeftHole][j + 2 * yLeftHole] === user) {
-                  this.computerTick(i + xLeftHole, j + yLeftHole);
-                  break;
-                } else if (this.arr[i + xRightHole] !== undefined && this.arr[i + xRightHole][j + yRightHole] === '' &&
-                  this.arr[i + 2 * xRightHole] !== undefined && this.arr[i + 2 * xRightHole][j + 2 * yRightHole] === user) {
-                  this.computerTick(i + xRightHole, j + yRightHole);
-                  break;
-                }
-              }
-              if (o === pieceOfPlayer.length - 1) { // can decide ? let random
-                let x = Math.floor(Math.random() * 10);
-                let y = Math.floor(Math.random() * 10);
-                while (this.arr[x][y] !== '') {
-                  x = Math.floor(Math.random() * 10);
-                  y = Math.floor(Math.random() * 10);
-                }
-                this.computerTick(x, y);
-                break;
-              }
-              if (this.arr[i + xLeft] !== undefined && this.arr[i + xLeft][j + yLeft] === '') {
-                this.computerTick(i + xLeft, j + yLeft);
-                break;
-              } else if (this.arr[i + xRight] !== undefined && this.arr[i + xRight][j + yRight] === '') {
-                this.computerTick(i + xRight, j + yRight);
-                break;
-              } else {
-                continue loopWhenComputerTick;
-              }
-            }
-          }
+          const comPoint = this.getPointsComputer();
+          i = comPoint[0];
+          j = comPoint[1];
+          this.arr[i][j] = this.secondPlayer;
         }
       } else if (!this.isOnePlayer) {                        // 2nd player
         currentPlayer = this.secondPlayer;
@@ -439,5 +302,160 @@ export class PlayComponent implements OnInit, AfterViewChecked {
         setTimeout(() => this.createBoard(), 500);
       }
     }
+  }
+
+  getPointsComputer() {
+    let maxScore = -Infinity;
+    let pointsComputer = [];
+    let listScorePoint = [];
+    for (let i = 0; i < this.arr.length; i++) {
+      for (let j = 0; j < this.arr[0].length; j++) {
+        if (this.arr[i][j] === "") {
+          let score =
+            MAP_SCORE_COMPUTER.get(
+              Math.max(
+                this.getHorizontal(i, j, this.secondPlayer),
+                this.getVertical(i, j, this.secondPlayer),
+                this.getRightDiagonal(i, j, this.secondPlayer),
+                this.getLeftDiagonal(i, j, this.secondPlayer)
+              )
+            ) +
+            MAP_POINT_HUMAN.get(
+              Math.max(
+                this.getHorizontal(i, j, this.firstPlayer),
+                this.getVertical(i, j, this.firstPlayer),
+                this.getRightDiagonal(i, j, this.firstPlayer),
+                this.getLeftDiagonal(i, j, this.firstPlayer)
+              ) - 1
+            );
+          if (maxScore <= score) {
+            maxScore = score;
+            listScorePoint.push({
+              score: score,
+              point: [i, j],
+            });
+          }
+        }
+      }
+    }
+
+    // get list max score
+    for (const element of listScorePoint) {
+      if (element.score === maxScore) {
+        pointsComputer.push(element.point);
+      }
+    }
+    return pointsComputer[Math.floor(Math.random() * pointsComputer.length)];
+  }
+
+  getHorizontal(x: number, y: number, player: string) {
+    let count = 1;
+    for (let i = 1; i < 5; i++) {
+      if (y + i < this.arr[0].length && this.arr[x][y + i] === player) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    for (let i = 1; i < 5; i++) {
+      if (
+        y - i >= 0 &&
+        y - i < this.arr[0].length &&
+        this.arr[x][y - i] === player
+      ) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    return count;
+  }
+
+  getVertical(x: number, y: number, player: string) {
+    let count = 1;
+    for (let i = 1; i < 5; i++) {
+      if (x + i < this.arr.length && this.arr[x + i][y] === player) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    for (let i = 1; i < 5; i++) {
+      if (
+        x - i >= 0 &&
+        x - i < this.arr.length &&
+        this.arr[x - i][y] === player
+      ) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    return count;
+  }
+
+  getRightDiagonal(x: number, y: number, player: string) {
+    let count = 1;
+    for (let i = 1; i < 5; i++) {
+      if (
+        x - i >= 0 &&
+        x - i < this.arr.length &&
+        y + i < this.arr[0].length &&
+        this.arr[x - i][y + i] === player
+      ) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    for (let i = 1; i < 5; i++) {
+      if (
+        x + i < this.arr.length &&
+        y - i >= 0 &&
+        y - i < this.arr[0].length &&
+        this.arr[x + i][y - i] === player
+      ) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    return count;
+  }
+
+  getLeftDiagonal(x: number, y: number, player: string) {
+    let count = 1;
+    for (let i = 1; i < 5; i++) {
+      if (
+        x - i >= 0 &&
+        x - i < this.arr.length &&
+        y - i >= 0 &&
+        y - i < this.arr[0].length &&
+        this.arr[x - i][y - i] === player
+      ) {
+        count++;
+      } else {
+        break;
+      }
+    }
+
+    for (let i = 1; i < 5; i++) {
+      if (
+        x + i < this.arr.length &&
+        y + i < this.arr[0].length &&
+        this.arr[x + i][y + i] === player
+      ) {
+        count++;
+      } else {
+        break;
+      }
+    }
+    return count;
   }
 }

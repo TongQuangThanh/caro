@@ -83,7 +83,7 @@
     <ion-row style="flex-grow: 1;" class="ion-justify-content-center ion-align-items-center">
       <div>
         <!-- y-axis -->
-        <ng-container *ngIf="isDesktop">
+        <ng-container><!-- *ngIf="isDesktop" -->
           <ion-row class="cell" *ngFor="let item of yArr" class="container-flex flex-column my-10">
             <div class="cell">0</div>
             <div class="cell" *ngFor="let col of arr; let i = index">{{i+1}}</div>
@@ -92,7 +92,7 @@
         <!-- end of y-axis -->
 
         <ion-row *ngFor="let row of arr; let i = index">
-          <div *ngIf="isDesktop" class="cell">{{i+1}}</div>
+          <div class="cell">{{i+1}}</div><!-- *ngIf="isDesktop" -->
           <div *ngFor="let col of row; let j = index" [id]="i + '-' + j" (click)="tick(i, j)" class="cell">
             <ion-text [color]="col === firstPlayer ? color1 : color2">
               {{col}}

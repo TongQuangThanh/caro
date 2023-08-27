@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   choose1 = 'o';
   choose2 = '×';
   chainToWin = 5;
-  isOnePlayer = 'false';
+  isOnePlayer = 'true';
   player = '1';
   size = 10;
   color1 = 'danger';

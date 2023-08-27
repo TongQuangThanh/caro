@@ -41,6 +41,10 @@
     "too-small": "Xin lỗi, màn hình của bạn quá nhỏ để chơi"
   },
   "notify": {
+    "undo": {
+      "title": "Bạn muốn đi lại?",
+      "message": "Cần xem quảng cáo để đi lại nước này, bạn chắc chắn chứ?"
+    },
     "reset": {
       "title": "Đặt lại tất cả!",
       "message": "Bạn chắc chứ?"

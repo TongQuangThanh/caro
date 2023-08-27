@@ -48,12 +48,14 @@ ion-grid {
 }
 
 .top-right-absolute {
+  z-index: 10;
   position: absolute;
   top: 0px;
   right: 0px;
 }
 
 .top-left-absolute {
+  z-index: 10;
   position: absolute;
   top: 0px;
   left: 0px;
