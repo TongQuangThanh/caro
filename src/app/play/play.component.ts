@@ -75,7 +75,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     const p8 = this.storage.get('confrontation') === 'true';
     Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then((value) => {
       [this.size, this.chainToWin, this.firstPlayer, this.secondPlayer,
-        this.color1, this.color2, this.isOnePlayer, this.confrontation] = value;
+      this.color1, this.color2, this.isOnePlayer, this.confrontation] = value;
       this.createBoard();
       this.ngAfterViewChecked();
     });
@@ -94,6 +94,10 @@ export class PlayComponent implements OnInit, AfterViewChecked {
       element.style.width = this.cellWidth + 'px';
       element.style.height = this.cellWidth + 'px';
     }
+  }
+
+  public isDisabled(): boolean {
+    return this.disableUndo || this.count1stMove <= 0 || this.count % 2 === 1;
   }
 
   async reset() {

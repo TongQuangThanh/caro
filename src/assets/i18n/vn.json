@@ -34,6 +34,10 @@
     },
     "custom-symbol": "Thay đổi của bạn!"
   },
+  "play": {
+    "player": "Người chơi",
+    "computer": "Máy tính"
+  },
   "common": {
     "close": "Đóng",
     "change": "Đổi màu",

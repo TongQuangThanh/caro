@@ -18,10 +18,10 @@
           <ion-card-content>
             <form #f="ngForm" (ngSubmit)="onSubmit()" class="ion-text-center">
               <ion-item>
-                <ion-label position="floating">{{ 'home.number-player' | translate }}</ion-label>
-                <ion-select name="isOnePlayer" [(ngModel)]="isOnePlayer">
-                  <ion-select-option value="true">1</ion-select-option>
-                  <ion-select-option value="false">2</ion-select-option>
+                <ion-select label-placement="stacked" [label]="'home.number-player' | translate" name="isOnePlayer"
+                  [(ngModel)]="isOnePlayer">
+                  <ion-select-option value="true">1 (Player vs Computer)</ion-select-option>
+                  <ion-select-option value="false">2 (Player vs Player)</ion-select-option>
                 </ion-select>
               </ion-item>
               <ion-item>
@@ -57,7 +57,8 @@
               </ion-item>
               <ion-item lines="none">
                 <ion-buttons (click)="modeInfo()" fill="none" class="ion-no-margin" style="font-size: 14px;">
-                  {{ 'home.confront-is' | translate }}<ion-icon slot="icon-only" name="help-circle-outline" slot="end"></ion-icon>
+                  {{ 'home.confront-is' | translate }}<ion-icon slot="icon-only" name="help-circle-outline"
+                    slot="end"></ion-icon>
                 </ion-buttons>
               </ion-item>
               <ion-button class="ion-margin-top" block color="primary" type="submit" [disabled]="!f.valid">

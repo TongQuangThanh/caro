@@ -34,6 +34,10 @@
     },
     "custom-symbol": "Custom by yourself!"
   },
+  "play": {
+    "player": "Player",
+    "computer": "Computer"
+  },
   "common": {
     "close": "Close",
     "change": "Change color",

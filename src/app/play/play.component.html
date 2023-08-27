@@ -21,14 +21,14 @@
       <ion-col [hidden]="!isDesktop" size="12" sizeSm="6">
         <ion-card>
           <ion-card-header class="ion-no-padding pt-0">
-            <ion-button [disabled]="(disableUndo || count1stMove <= 0 || count % 2 === 0) && !isOnePlayer"
-              (click)="undo()" fill="none" class="top-left-absolute">
+            <ion-button *ngIf="isOnePlayer" [disabled]="isDisabled()" (click)="undo()" fill="none"
+              class="top-left-absolute">
               <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
             </ion-button>
             <ion-button [disabled]="count === 0" (click)="reset()" fill="none" class="top-right-absolute">
               <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
             </ion-button>
-            <ion-card-title>{{firstPlayer}}</ion-card-title>
+            <ion-card-title>{{ (isOnePlayer ? 'play.player' : '') | translate }} {{firstPlayer}}</ion-card-title>
           </ion-card-header>
           <ion-card-content class="ion-no-padding">
             <ion-text>
@@ -51,15 +51,14 @@
       <ion-col size="12" sizeSm="6">
         <ion-card>
           <ion-card-header class="ion-no-padding pt-0">
-            <ion-button *ngIf="!isOnePlayer" [disabled]="disableUndo || count2ndMove <= 0 || count % 2 === 1"
-              (click)="undo()" fill="none" class="top-left-absolute">
+            <!-- <ion-button *ngIf="isOnePlayer" [disabled]="isDisabled()" (click)="undo()" fill="none" class="top-left-absolute">
               <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
-            </ion-button>
+            </ion-button> -->
             <ion-button *ngIf="!isOnePlayer" [disabled]="count === 0" (click)="reset()" fill="none"
               class="top-right-absolute">
               <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
             </ion-button>
-            <ion-card-title>{{secondPlayer}}</ion-card-title>
+            <ion-card-title>{{ (isOnePlayer ? 'play.computer' : '') | translate }} {{secondPlayer}}</ion-card-title>
           </ion-card-header>
           <ion-card-content class="ion-no-padding">
             <ion-text>
@@ -83,7 +82,7 @@
     <ion-row style="flex-grow: 1;" class="ion-justify-content-center ion-align-items-center">
       <div>
         <!-- y-axis -->
-        <ng-container><!-- *ngIf="isDesktop" -->
+        <ng-container *ngIf="cellWidth > 15"><!-- *ngIf="isDesktop" -->
           <ion-row class="cell" *ngFor="let item of yArr" class="container-flex flex-column my-10">
             <div class="cell">0</div>
             <div class="cell" *ngFor="let col of arr; let i = index">{{i+1}}</div>
@@ -92,7 +91,7 @@
         <!-- end of y-axis -->
 
         <ion-row *ngFor="let row of arr; let i = index">
-          <div class="cell">{{i+1}}</div><!-- *ngIf="isDesktop" -->
+          <div *ngIf="cellWidth > 15" class="cell">{{i+1}}</div><!-- *ngIf="isDesktop" -->
           <div *ngFor="let col of row; let j = index" [id]="i + '-' + j" (click)="tick(i, j)" class="cell">
             <ion-text [color]="col === firstPlayer ? color1 : color2">
               {{col}}
@@ -110,14 +109,14 @@
       <ion-col size="12" sizeSm="6">
         <ion-card>
           <ion-card-header class="ion-no-padding pt-0">
-            <ion-button [disabled]="(disableUndo || count1stMove <= 0 || count % 2 === 0) && !isOnePlayer"
-              (click)="undo()" fill="none" class="top-left-absolute">
+            <ion-button *ngIf="isOnePlayer" [disabled]="isDisabled()" (click)="undo()" fill="none"
+              class="top-left-absolute">
               <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
             </ion-button>
             <ion-button [disabled]="count === 0" (click)="reset()" fill="none" class="top-right-absolute">
               <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
             </ion-button>
-            <ion-card-title>{{firstPlayer}}</ion-card-title>
+            <ion-card-title>{{ (isOnePlayer ? 'play.player' : '') | translate }} {{firstPlayer}}</ion-card-title>
           </ion-card-header>
           <ion-card-content class="ion-no-padding">
             <ion-text>
@@ -140,14 +139,13 @@
       <ion-col hidden size="12" sizeSm="6">
         <ion-card>
           <ion-card-header class="ion-no-padding pt-0">
-            <ion-button [disabled]="disableUndo || count2ndMove <= 0 || count % 2 === 1" (click)="undo()" fill="none"
-              class="top-left-absolute">
+            <!-- <ion-button *ngIf="isOnePlayer" [disabled]="isDisabled()" (click)="undo()" fill="none" class="top-left-absolute">
               <ion-icon slot="icon-only" name="arrow-undo-circle-outline"></ion-icon>
-            </ion-button>
+            </ion-button> -->
             <ion-button [disabled]="count === 0" (click)="reset()" fill="none" class="top-right-absolute">
               <ion-icon color="danger" slot="icon-only" name="refresh-circle-outline"></ion-icon>
             </ion-button>
-            <ion-card-title>{{secondPlayer}}</ion-card-title>
+            <ion-card-title>{{ (isOnePlayer ? 'play.computer' : '') | translate }} {{secondPlayer}}</ion-card-title>
           </ion-card-header>
           <ion-card-content class="ion-no-padding">
             <ion-text>
