@@ -241,6 +241,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
       await AdMob.prepareRewardVideoAd({ adId });
       return await AdMob.showRewardVideoAd();
     } catch (error) {
+      this.onUndo();
       return { type: 'false', amount: 0 };
     }
   }
@@ -288,9 +289,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
           currentPlayer = this.secondPlayer;
           this.count++;
           const comPoint = this.getPointsComputer();
-          i = comPoint[0];
-          j = comPoint[1];
-          this.arr[i][j] = this.secondPlayer;
+          this.computerTick(comPoint[0], comPoint[1]);
         }
       } else if (!this.isOnePlayer) {                        // 2nd player
         currentPlayer = this.secondPlayer;
@@ -303,7 +302,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
       }
       if (this.count === this.size ** 2) {
         this.isDraw = true;
-        setTimeout(() => this.createBoard(), 500);
+        setTimeout(() => this.createBoard(), 1000);
       }
     }
   }
@@ -363,11 +362,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     }
 
     for (let i = 1; i < 5; i++) {
-      if (
-        y - i >= 0 &&
-        y - i < this.arr[0].length &&
-        this.arr[x][y - i] === player
-      ) {
+      if (y - i >= 0 && y - i < this.arr[0].length && this.arr[x][y - i] === player) {
         count++;
       } else {
         break;
@@ -388,11 +383,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     }
 
     for (let i = 1; i < 5; i++) {
-      if (
-        x - i >= 0 &&
-        x - i < this.arr.length &&
-        this.arr[x - i][y] === player
-      ) {
+      if (x - i >= 0 && x - i < this.arr.length && this.arr[x - i][y] === player) {
         count++;
       } else {
         break;
@@ -405,12 +396,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   getRightDiagonal(x: number, y: number, player: string) {
     let count = 1;
     for (let i = 1; i < 5; i++) {
-      if (
-        x - i >= 0 &&
-        x - i < this.arr.length &&
-        y + i < this.arr[0].length &&
-        this.arr[x - i][y + i] === player
-      ) {
+      if (x - i >= 0 && x - i < this.arr.length && y + i < this.arr[0].length && this.arr[x - i][y + i] === player) {
         count++;
       } else {
         break;
@@ -418,12 +404,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     }
 
     for (let i = 1; i < 5; i++) {
-      if (
-        x + i < this.arr.length &&
-        y - i >= 0 &&
-        y - i < this.arr[0].length &&
-        this.arr[x + i][y - i] === player
-      ) {
+      if (x + i < this.arr.length && y - i >= 0 && y - i < this.arr[0].length && this.arr[x + i][y - i] === player) {
         count++;
       } else {
         break;
@@ -436,13 +417,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
   getLeftDiagonal(x: number, y: number, player: string) {
     let count = 1;
     for (let i = 1; i < 5; i++) {
-      if (
-        x - i >= 0 &&
-        x - i < this.arr.length &&
-        y - i >= 0 &&
-        y - i < this.arr[0].length &&
-        this.arr[x - i][y - i] === player
-      ) {
+      if (x - i >= 0 && x - i < this.arr.length && y - i >= 0 && y - i < this.arr[0].length && this.arr[x - i][y - i] === player) {
         count++;
       } else {
         break;
@@ -450,11 +425,7 @@ export class PlayComponent implements OnInit, AfterViewChecked {
     }
 
     for (let i = 1; i < 5; i++) {
-      if (
-        x + i < this.arr.length &&
-        y + i < this.arr[0].length &&
-        this.arr[x + i][y + i] === player
-      ) {
+      if (x + i < this.arr.length && y + i < this.arr[0].length && this.arr[x + i][y + i] === player) {
         count++;
       } else {
         break;
