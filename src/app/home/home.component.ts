@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { StorageService } from './../storage.service';
 import { App } from '@capacitor/app';
 import { TranslateService } from '@ngx-translate/core';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-home',
@@ -17,22 +18,23 @@ export class HomeComponent implements OnInit {
   choose1 = 'o';
   choose2 = '×';
   chainToWin = 5;
-  isOnePlayer = 'true';
+  isOnePlayer: 'false' | 'true' | 'onl' = 'onl';
   player = '1';
   size = 10;
   color1 = 'danger';
   color2 = 'primary';
   confrontation = true;
+  showCode = false;
+  code = ''; // YYMMDDHHMMSS
   chooses = ['o', '×', '+', '-', '☆', '☼', '☽', '♂', '♀', '😋', '🙄'];
   colors = [
     { title: 'primary', colorName: 'blue' },
     { title: 'secondary', colorName: 'light blue' },
+    { title: 'tertiary', colorName: 'violet' },
     { title: 'success', colorName: 'green' },
     { title: 'warning', colorName: 'yellow' },
     { title: 'danger', colorName: 'red' },
-    { title: 'light', colorName: 'light gray' },
     { title: 'medium', colorName: 'gray' },
-    { title: 'dark', colorName: 'black' },
   ];
   constructor(private storage: StorageService, private router: Router, private modalController: ModalController,
     private routerOutlet: IonRouterOutlet, private platform: Platform, private alertController: AlertController,
@@ -205,6 +207,19 @@ export class HomeComponent implements OnInit {
     modal.present();
   }
 
+  onPlayerChange() {
+    if (this.isOnePlayer === 'onl') {
+      this.confrontation = false;
+    }
+  }
+
+  async share() {
+    // Share text only
+    await Share.share({
+      text: this.code,
+    });
+  }
+
   async onSubmit() {
     const p1 = this.storage.set('size', this.size);
     const p2 = this.storage.set('choose1', this.choose1);
@@ -214,7 +229,13 @@ export class HomeComponent implements OnInit {
     const p6 = this.storage.set('confrontation', this.confrontation);
     const p7 = this.storage.set('color1', this.color1);
     const p8 = this.storage.set('color2', this.color2);
-    Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then(() => this.router.navigateByUrl('play'));
+    if (this.isOnePlayer === 'onl') {
+      this.showCode = true;
+      const now = new Date();
+      this.code = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+    } else {
+      Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then(() => this.router.navigateByUrl('play'));
+    }
   }
 }
 

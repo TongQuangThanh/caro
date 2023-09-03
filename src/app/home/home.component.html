@@ -19,20 +19,26 @@
             <form #f="ngForm" (ngSubmit)="onSubmit()" class="ion-text-center">
               <ion-item>
                 <ion-select label-placement="stacked" [label]="'home.number-player' | translate" name="isOnePlayer"
-                  [(ngModel)]="isOnePlayer">
-                  <ion-select-option value="true">1 (Player vs Computer)</ion-select-option>
-                  <ion-select-option value="false">2 (Player vs Player)</ion-select-option>
+                  [(ngModel)]="isOnePlayer" (ngModelChange)="onPlayerChange()">
+                  <ion-select-option value="true">1 (PvC)</ion-select-option>
+                  <ion-select-option value="false">2 (PvP - offline)</ion-select-option>
+                  <ion-select-option value="onl">2 (PvP - online)</ion-select-option>
                 </ion-select>
               </ion-item>
+
+              <!-- Player symbol -->
               <ion-item>
-                <ion-label (click)="chooseSymbol(1, label1.innerText, label2.innerText)">
-                  <p #label1>{{(isOnePlayer === 'true' ? 'home.your-symbol' : 'home.1-symbol') | translate}}</p>
+                <ion-label (click)="chooseSymbol(1, label1.innerText, label2?.innerText)">
+                  <p #label1>{{(isOnePlayer === 'true' || isOnePlayer === 'onl' ? 'home.your-symbol' : 'home.1-symbol')
+                    | translate}}</p>
                 </ion-label>
                 <ion-chip outline="true" [color]="color1">
-                  <ion-label (click)="chooseSymbol(1, label1.innerText, label2.innerText)">{{choose1}}</ion-label>
+                  <ion-label (click)="chooseSymbol(1, label1.innerText, label2?.innerText)">{{choose1}}</ion-label>
                 </ion-chip>
               </ion-item>
-              <ion-item>
+
+              <!-- Computer symbol -->
+              <ion-item [class.d-none]="isOnePlayer === 'onl'">
                 <ion-label (click)="chooseSymbol(2, label2.innerText, label1.innerText)">
                   <p #label2>{{(isOnePlayer === 'true' ? 'home.computer-symbol' : 'home.2-symbol') | translate}}</p>
                 </ion-label>
@@ -40,30 +46,49 @@
                   <ion-label (click)="chooseSymbol(2, label2.innerText, label1.innerText)">{{choose2}}</ion-label>
                 </ion-chip>
               </ion-item>
+
+              <!-- Size -->
               <ion-item>
                 <ion-label position="floating">{{ 'home.size-board' | translate }}</ion-label>
                 <ion-input required name="size" [(ngModel)]="size" type="number" [min]="minSize" [max]="maxSize"
                   (ionChange)="changeChainToWin()">
                 </ion-input>
               </ion-item>
+
+              <!-- chainToWin -->
               <ion-item>
                 <ion-label position="floating">{{ 'home.chain-win' | translate }}</ion-label>
                 <ion-input required name="chainToWin" [(ngModel)]="chainToWin" disabled type="number"></ion-input>
               </ion-item>
-              <ion-item>
+
+              <!-- confront -->
+              <ion-item [class.d-none]="isOnePlayer === 'onl'">
                 <ion-label>{{ 'home.confront-mode' | translate }}</ion-label>
                 <ion-checkbox slot="end" name="confrontation" [(ngModel)]="confrontation" [disabled]="isOnePlayer">
                 </ion-checkbox>
               </ion-item>
-              <ion-item lines="none">
+
+              <!-- confront help -->
+              <ion-item [class.d-none]="isOnePlayer === 'onl'" lines="none">
                 <ion-buttons (click)="modeInfo()" fill="none" class="ion-no-margin" style="font-size: 14px;">
                   {{ 'home.confront-is' | translate }}
                   <ion-icon slot="icon-only" name="help-circle-outline" slot="end"></ion-icon>
                 </ion-buttons>
               </ion-item>
-              <ion-button class="ion-margin-top" block color="primary" type="submit" [disabled]="!f.valid">
+
+              <!-- play button -->
+              <ion-button class="ion-margin-top" expand="block" color="primary" type="submit" [disabled]="!f.valid"
+                mode="ios" *ngIf="!showCode">
                 {{ 'home.play' | translate }}
               </ion-button>
+
+              <!-- show code -->
+              <ion-item>
+                <ion-button class="ion-margin-top" expand="block" color="primary" type="submit" *ngIf="showCode">
+                  {{ code }}
+                </ion-button>
+                <ion-icon name="share-social-outline"(click)="share()"></ion-icon>
+              </ion-item>
             </form>
           </ion-card-content>
         </ion-card>
