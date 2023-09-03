@@ -17,7 +17,8 @@
           </ion-card-header>
           <ion-card-content>
             <form #f="ngForm" (ngSubmit)="onSubmit()" class="ion-text-center">
-              <ion-item>
+              <!-- number of player -->
+              <ion-item *ngIf="!joinMode">
                 <ion-select label-placement="stacked" [label]="'home.number-player' | translate" name="isOnePlayer"
                   [(ngModel)]="isOnePlayer" (ngModelChange)="onPlayerChange()">
                   <ion-select-option value="true">1 (PvC)</ion-select-option>
@@ -48,7 +49,7 @@
               </ion-item>
 
               <!-- Size -->
-              <ion-item>
+              <ion-item *ngIf="!joinMode">
                 <ion-label position="floating">{{ 'home.size-board' | translate }}</ion-label>
                 <ion-input required name="size" [(ngModel)]="size" type="number" [min]="minSize" [max]="maxSize"
                   (ionChange)="changeChainToWin()">
@@ -56,20 +57,20 @@
               </ion-item>
 
               <!-- chainToWin -->
-              <ion-item>
+              <ion-item *ngIf="!joinMode">
                 <ion-label position="floating">{{ 'home.chain-win' | translate }}</ion-label>
                 <ion-input required name="chainToWin" [(ngModel)]="chainToWin" disabled type="number"></ion-input>
               </ion-item>
 
               <!-- confront -->
-              <ion-item [class.d-none]="isOnePlayer === 'onl'">
+              <ion-item [class.d-none]="isOnePlayer === 'onl' || joinMode">
                 <ion-label>{{ 'home.confront-mode' | translate }}</ion-label>
                 <ion-checkbox slot="end" name="confrontation" [(ngModel)]="confrontation" [disabled]="isOnePlayer">
                 </ion-checkbox>
               </ion-item>
 
               <!-- confront help -->
-              <ion-item [class.d-none]="isOnePlayer === 'onl'" lines="none">
+              <ion-item [class.d-none]="isOnePlayer === 'onl' || joinMode" lines="none">
                 <ion-buttons (click)="modeInfo()" fill="none" class="ion-no-margin" style="font-size: 14px;">
                   {{ 'home.confront-is' | translate }}
                   <ion-icon slot="icon-only" name="help-circle-outline" slot="end"></ion-icon>
@@ -78,19 +79,33 @@
 
               <!-- play button -->
               <ion-button class="ion-margin-top" expand="block" color="primary" type="submit" [disabled]="!f.valid"
-                mode="ios" *ngIf="!showCode">
+                mode="ios" *ngIf="!showRoom">
                 {{ 'home.play' | translate }}
               </ion-button>
 
               <!-- show code -->
-              <ion-item>
-                <ion-button class="ion-margin-top" expand="block" color="primary" type="submit" *ngIf="showCode">
-                  {{ code }}
+              <ion-item *ngIf="showRoom">
+                <ion-button expand="block" color="primary" class="flex-1 h-40px"
+                  style="font-size: 14px; letter-spacing: 2.5px;">{{ room }}</ion-button>
+                <ion-button (click)="share()" class="h-40px ion-margin-start" style="width: 50px;">
+                  <ion-icon slot="icon-only" name="share-social"></ion-icon>
                 </ion-button>
-                <ion-icon name="share-social-outline"(click)="share()"></ion-icon>
               </ion-item>
             </form>
           </ion-card-content>
+        </ion-card>
+
+        <ion-row class="ion-justify-content-center ion-align-items-center ion-margin-vertical">
+          <div class="line ion-margin-horizontal"></div>
+          <ion-text color="medium">Or</ion-text>
+          <div class="line ion-margin-horizontal"></div>
+        </ion-row>
+
+        <ion-card>
+          <ion-item>
+            <ion-input [(ngModel)]="selectedRoom" [placeholder]="'home.input-code' | translate"></ion-input>
+            <ion-button (click)="join()" expand="block">OK</ion-button>
+          </ion-item>
         </ion-card>
       </ion-col>
     </ion-row>

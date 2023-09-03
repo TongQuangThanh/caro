@@ -25,6 +25,7 @@
     "best": "Best",
     "move": "Move",
     "draw": "It's draw!",
+    "input-code": "Input code to join a match",
     "confront": {
       "text": "It allow rotate 1 side for more comfortable when you play with your friend :)"
     },

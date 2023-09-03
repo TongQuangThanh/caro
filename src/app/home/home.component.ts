@@ -6,6 +6,7 @@ import { StorageService } from './../storage.service';
 import { App } from '@capacitor/app';
 import { TranslateService } from '@ngx-translate/core';
 import { Share } from '@capacitor/share';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +25,10 @@ export class HomeComponent implements OnInit {
   color1 = 'danger';
   color2 = 'primary';
   confrontation = true;
-  showCode = false;
-  code = ''; // YYMMDDHHMMSS
+  showRoom = false;
+  joinMode = false;
+  room = ''; // RYYMMDDHHMMSS
+  selectedRoom = '';
   chooses = ['o', '×', '+', '-', '☆', '☼', '☽', '♂', '♀', '😋', '🙄'];
   colors = [
     { title: 'primary', colorName: 'blue' },
@@ -37,7 +40,7 @@ export class HomeComponent implements OnInit {
     { title: 'medium', colorName: 'gray' },
   ];
   constructor(private storage: StorageService, private router: Router, private modalController: ModalController,
-    private routerOutlet: IonRouterOutlet, private platform: Platform, private alertController: AlertController,
+    private routerOutlet: IonRouterOutlet, private platform: Platform, private alertController: AlertController, private socket: Socket,
     private sharedService: SharedService, private toastController: ToastController, private translate: TranslateService) {
     this.platform.backButton.subscribeWithPriority(-1, () => this.exitApp());
     sharedService.exit$.subscribe(() => this.exitApp());
@@ -216,8 +219,15 @@ export class HomeComponent implements OnInit {
   async share() {
     // Share text only
     await Share.share({
-      text: this.code,
+      text: this.room,
     });
+  }
+
+  join() {
+    if (!this.selectedRoom) {
+      return;
+    }
+    this.joinMode = true;
   }
 
   async onSubmit() {
@@ -229,12 +239,22 @@ export class HomeComponent implements OnInit {
     const p6 = this.storage.set('confrontation', this.confrontation);
     const p7 = this.storage.set('color1', this.color1);
     const p8 = this.storage.set('color2', this.color2);
-    if (this.isOnePlayer === 'onl') {
-      this.showCode = true;
-      const now = new Date();
-      this.code = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
-    } else {
+    if (this.joinMode) {
       Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then(() => this.router.navigateByUrl('play'));
+    } else {
+      if (this.isOnePlayer === 'onl') {
+        this.showRoom = true;
+        const now = new Date();
+        this.room = `R${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+        console.log(this.room);
+        this.socket.fromEvent('join-room').subscribe(x => {
+          console.log(248, x);
+          Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then(() => this.router.navigateByUrl('play'));
+        });
+        this.socket.emit('create-room', this.room);
+      } else {
+        Promise.all([p1, p2, p3, p4, p5, p6, p7, p8]).then(() => this.router.navigateByUrl('play'));
+      }
     }
   }
 }
